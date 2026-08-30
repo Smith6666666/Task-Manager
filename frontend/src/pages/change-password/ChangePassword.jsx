@@ -2,6 +2,7 @@ import api from '../../utils/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { FormNav } from '../../components/FormNav';
+import UpdateLoading from '../../assets/update-loading.gif';
 import 'animate.css';
 import './ChangePassword.css';
 
@@ -13,6 +14,8 @@ export function ChangePassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const [isConfirming, setIsConfirming] = useState(false);
+
   const [formError, setFormError] = useState('');
 
   function clickShowPassword() {
@@ -21,7 +24,10 @@ export function ChangePassword() {
 
   async function confirmChangePassword(e) {
     e.preventDefault();
+
     try {
+      setIsConfirming(true);
+
       const response = await api.patch('/api/v1/auth/change-password', {
         currentPassword,
         newPassword,
@@ -30,6 +36,7 @@ export function ChangePassword() {
 
       if (response.data.status === 'success') {
         setFormError('');
+        setIsConfirming(false);
         window.alert('Password changed successfully. Please log in again.');
       };
 
@@ -38,6 +45,8 @@ export function ChangePassword() {
       navigate('/');
     } catch (error) {
       setFormError(error.response?.data?.message || 'Something went wrong');
+    } finally {
+      setIsConfirming(false);
     };
   };
 
@@ -69,7 +78,11 @@ export function ChangePassword() {
             <i className="bi bi-eye-fill"></i> &nbsp;Show Password
           </div>
           <p className="err-message">{formError}</p>
-          <button type="submit">Confirm</button>
+          {isConfirming ? (
+            <img src={UpdateLoading} className="update-loading" />
+          ) : (
+            <button type="submit">Confirm</button>
+          )}
         </form>
       </div>
     </div>
