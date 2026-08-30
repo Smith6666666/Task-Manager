@@ -1,6 +1,7 @@
 const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
+const cloudinary = require('../utils/cloudinary');
+// const fs = require('fs');
+// const path = require('path');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { promisify } = require('util');
@@ -14,16 +15,18 @@ const User = require('../models/userModel');
 const Task = require('../models/taskModel');
 const Subscription = require('../models/subscriptionModel');
 
-const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '..', 'public', 'uploads', 'users'));
-  },
+// const multerStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, path.join(__dirname, '..', 'public', 'uploads', 'users'));
+//   },
 
-  filename: (req, file, cb) => {
-    const extension = file.mimetype.split('/')[1];
-    cb(null, `user-${req.user._id}-${Date.now()}.${extension}`);
-  }
-});
+//   filename: (req, file, cb) => {
+//     const extension = file.mimetype.split('/')[1];
+//     cb(null, `user-${req.user._id}-${Date.now()}.${extension}`);
+//   }
+// });
+
+const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image/')) {
@@ -278,29 +281,108 @@ exports.updateProfile = async (req, res) => {
 
 exports.uploadProfile = upload.single('profile');
 
+const uploadToCloudinary = (buffer, userId) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: 'task-manager/users',
+        public_id: `user-${userId}-${Date.now()}`,
+        resource_type: 'image'
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+
+    uploadStream.end(buffer);
+  });
+};
+
+// exports.updateProfilePhoto = async (req, res) => {
+//   if (!req.file) {
+//     return sendError(res, 400, 'Select a profile image');
+//   };
+
+//   try {
+//     const oldProfile = req.user.profile;
+
+//     const user = await User.findByIdAndUpdate(req.user._id, {
+//       profile: req.file.filename
+//     }, {
+//       runValidators: true,
+//       returnDocument: 'after'
+//     });
+
+//     if (!user) {
+//       return sendError(res, 404, 'User not found');
+//     };
+
+//     if (oldProfile !== 'user-default.png') {
+//       const oldPhotoPath = path.join(__dirname, '..', 'public', 'uploads', 'users', oldProfile);
+//       if (fs.existsSync(oldPhotoPath)) {
+//         fs.unlinkSync(oldPhotoPath);
+//       };
+//     };
+
+//     return res.status(200).json({
+//       status: 'success',
+//       message: 'Profile updated...',
+//       data: {
+//         user: {
+//           _id: user._id,
+//           name: user.name,
+//           email: user.email,
+//           profile: user.profile
+//         }
+//       }
+//     });
+//   } catch (error) {
+//     return handleDatabaseError(error, res);
+//   }
+// };
+
 exports.updateProfilePhoto = async (req, res) => {
   if (!req.file) {
     return sendError(res, 400, 'Select a profile image');
-  };
+  }
+
+  let uploadedImage;
 
   try {
-    const oldProfile = req.user.profile;
+    const oldProfilePublicId = req.user.profilePublicId;
 
-    const user = await User.findByIdAndUpdate(req.user._id, {
-      profile: req.file.filename
-    }, {
-      runValidators: true,
-      returnDocument: 'after'
-    });
+    uploadedImage = await uploadToCloudinary(
+      req.file.buffer,
+      req.user._id
+    );
+
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        profile: uploadedImage.secure_url,
+        profilePublicId: uploadedImage.public_id
+      },
+      {
+        runValidators: true,
+        returnDocument: 'after'
+      }
+    );
 
     if (!user) {
+      await cloudinary.uploader.destroy(uploadedImage.public_id);
+
       return sendError(res, 404, 'User not found');
     };
 
-    if (oldProfile !== 'user-default.png') {
-      const oldPhotoPath = path.join(__dirname, '..', 'public', 'uploads', 'users', oldProfile);
-      if (fs.existsSync(oldPhotoPath)) {
-        fs.unlinkSync(oldPhotoPath);
+    if (oldProfilePublicId) {
+      try {
+        await cloudinary.uploader.destroy(oldProfilePublicId);
+      } catch (error) {
+        console.error('Failed to delete old Cloudinary profile:', error.message);
       };
     };
 
@@ -317,9 +399,55 @@ exports.updateProfilePhoto = async (req, res) => {
       }
     });
   } catch (error) {
+    if (uploadedImage?.public_id) {
+      try {
+        await cloudinary.uploader.destroy(uploadedImage.public_id);
+      } catch (cleanupError) {
+        console.error('Failed to clean up uploaded profile:', cleanupError.message);
+      };
+    };
+
     return handleDatabaseError(error, res);
-  }
+  };
 };
+
+// exports.removeProfilePhoto = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.user._id);
+
+//     if (!user) {
+//       return sendError(res, 404, 'User not found');
+//     };
+
+//     if (user.profile === 'user-default.png') {
+//       return sendError(res, 400, 'You do not have a profile photo to remove');
+//     };
+
+//     const oldPhotoPath = path.join(__dirname, '..', 'public', 'uploads', 'users', user.profile);
+
+//     if (fs.existsSync(oldPhotoPath)) {
+//       fs.unlinkSync(oldPhotoPath);
+//     };
+
+//     user.profile = 'user-default.png';
+//     await user.save();
+
+//     return res.status(200).json({
+//       status: 'success',
+//       message: 'Profile removed...',
+//       data: {
+//         user: {
+//           _id: user._id,
+//           name: user.name,
+//           email: user.email,
+//           profile: user.profile
+//         }
+//       }
+//     });
+//   } catch (error) {
+//     return handleDatabaseError(error, res);
+//   }
+// };
 
 exports.removeProfilePhoto = async (req, res) => {
   try {
@@ -329,18 +457,22 @@ exports.removeProfilePhoto = async (req, res) => {
       return sendError(res, 404, 'User not found');
     };
 
-    if (user.profile === 'user-default.png') {
+    if (!user.profilePublicId) {
       return sendError(res, 400, 'You do not have a profile photo to remove');
     };
 
-    const oldPhotoPath = path.join(__dirname, '..', 'public', 'uploads', 'users', user.profile);
-
-    if (fs.existsSync(oldPhotoPath)) {
-      fs.unlinkSync(oldPhotoPath);
-    };
+    const oldProfilePublicId = user.profilePublicId;
 
     user.profile = 'user-default.png';
+    user.profilePublicId = null;
+
     await user.save();
+
+    try {
+      await cloudinary.uploader.destroy(oldProfilePublicId);
+    } catch (error) {
+      console.error('Failed to delete Cloudinary profile:', error.message);
+    };
 
     return res.status(200).json({
       status: 'success',
@@ -356,7 +488,7 @@ exports.removeProfilePhoto = async (req, res) => {
     });
   } catch (error) {
     return handleDatabaseError(error, res);
-  }
+  };
 };
 
 exports.changePassword = async (req, res) => {
@@ -739,11 +871,19 @@ exports.terminateAccount = async (req, res) => {
 
     await Subscription.deleteMany({ user: user._id });
 
-    if (user.profile && user.profile !== 'user-default.png') {
-      const photoPath = path.join(__dirname, '..', 'public', 'uploads', 'users', user.profile);
+    // if (user.profile && user.profile !== 'user-default.png') {
+    //   const photoPath = path.join(__dirname, '..', 'public', 'uploads', 'users', user.profile);
 
-      if (fs.existsSync(photoPath)) {
-        fs.unlinkSync(photoPath);
+    //   if (fs.existsSync(photoPath)) {
+    //     fs.unlinkSync(photoPath);
+    //   };
+    // };
+
+    if (user.profilePublicId) {
+      try {
+        await cloudinary.uploader.destroy(user.profilePublicId);
+      } catch (error) {
+        console.error('Failed to delete Cloudinary profile during account termination:', error.message);
       };
     };
 

@@ -1,6 +1,7 @@
 import api from '../../utils/axios';
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router';
+import { getProfileImage } from '../../utils/profileImage';
 import UpdateLoading from '../../assets/update-loading.gif';
 import './SettingPage.css';
 
@@ -175,7 +176,8 @@ export function SettingPage() {
       <div className="header">
         <div>
           <NavLink className="image-container" to="/dashboard">
-            <img src={user?.profile ? `/uploads/users/${user.profile}` : '/uploads/users/user-default.png'} />
+            {/* <img src={user?.profile ? `/uploads/users/${user.profile}` : '/uploads/users/user-default.png'} /> */}
+            <img src={getProfileImage(user?.profile)} />
           </NavLink>
           <p>Welcome, {user?.name}</p>
         </div>
@@ -197,7 +199,8 @@ export function SettingPage() {
         {profileNav ? (
           <div className="profile-container">
             <div className="img-box">
-              <img src={photoPreview || (user?.profile ? `/uploads/users/${user.profile}` : '/uploads/users/user-default.png')} />
+              {/* <img src={photoPreview || (user?.profile ? `/uploads/users/${user.profile}` : '/uploads/users/user-default.png')} /> */}
+              <img src={photoPreview || getProfileImage(user?.profile)} />
               <div>
                 {changePfpBtn ? (
                   <>

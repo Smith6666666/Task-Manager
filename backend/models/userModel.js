@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'user-default.png'
   },
+  profilePublicId: {
+    type: String,
+    default: null
+  },
   twoFactorEnabled: {
     type: Boolean,
     default: false

@@ -10,7 +10,13 @@ const taskRoutes = require('./routes/taskRoutes');
 const notiRoutes = require('./routes/notiRoutes');
 const authRoutes = require('./routes/authRoutes');
 
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: {
+      policy: 'cross-origin'
+    }
+  })
+);
 app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(express.json({ limit: '10kb' }));
 app.use(express.static(path.join(__dirname, 'public')));

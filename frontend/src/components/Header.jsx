@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router';
+import { getProfileImage } from '../utils/profileImage';
 import LogoSm from '../assets/logo-sm.png';
 import './Header.css';
 
@@ -6,7 +7,8 @@ export function Header() {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem('user'));
-  const profileImage = user?.profile ? `/uploads/users/${user.profile}` : '/uploads/users/user-default.png';
+  // const profileImage = user?.profile ? `/uploads/users/${user.profile}` : '/uploads/users/user-default.png';
+  const profileImage = getProfileImage(user?.profile);
 
   function logout() {
     const confirm = window.confirm('Do you want to log out?');
