@@ -1,0 +1,198 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--c3);
+  height: 65px;
+  padding: 0 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  position: sticky;
+  top: 1px;
+  z-index: 1000;
+}
+
+.logo {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+}
+
+h1 {
+  color: var(--c1);
+  font-size: 1.8rem;
+  text-shadow: 0 1px 2px var(--c2);
+  letter-spacing: 0.5px;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #ffffff;
+  border: none;
+  width: 95px;
+  height: 28px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.logout-btn > i {
+  color: var(--c2);
+  font-size: 15px;
+}
+
+.logout-btn > p {
+  color: var(--c2);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.logout-btn:hover {
+  transform: scale(0.95);
+  opacity: 0.8;
+  box-shadow: none;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 45px;
+  padding: 0 15px 0 1px;
+  border: 1.5px solid white;
+  border-radius: 23px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.image-container:hover {
+  opacity: 0.8;
+  transition: var(--transition);
+}
+
+.image-container > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--c2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.profile-container > p {
+  font-size: 15px;
+  color: var(--c2);
+  font-weight: 500;
+}
+
+/* ============================
+   RESPONSIVE ADDITIONS BELOW
+   (original rules unchanged above — every value below
+   fluidly interpolates between 320px and 480px viewport
+   width using clamp(), then holds fixed outside that range)
+   ============================ */
+
+.header-container {
+  padding: 0 clamp(10px, 3.125vw, 15px);
+  box-sizing: border-box;
+}
+
+.logo {
+  width: clamp(28px, calc(14px + 4.375vw), 35px);
+  height: clamp(28px, calc(14px + 4.375vw), 35px);
+  flex-shrink: 0;
+}
+
+h1 {
+  font-size: clamp(1.2rem, 6vw, 1.8rem);
+  white-space: nowrap;
+}
+
+.logout-btn {
+  width: clamp(75px, calc(-35px + 12.5vw), 95px);
+  height: clamp(24px, calc(16px + 2.5vw), 28px);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.logout-btn > i {
+  font-size: clamp(13px, calc(9px + 1.25vw), 15px);
+}
+
+.logout-btn > p {
+  font-size: clamp(11px, calc(7px + 1.25vw), 13px);
+  white-space: nowrap;
+}
+
+.profile-container {
+  height: clamp(38px, calc(24px + 4.375vw), 45px);
+  padding: 0 clamp(10px, 3.125vw, 15px) 0 1px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.image-container > img {
+  width: clamp(32px, calc(16px + 5vw), 40px);
+  height: clamp(32px, calc(16px + 5vw), 40px);
+}
+
+.profile-container > p {
+  font-size: clamp(12px, calc(6px + 1.875vw), 15px);
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .logout-btn {
+    width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    gap: 8px;
+  }
+
+  .logout-btn {
+    width: 90px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    gap: 6px;
+  }
+
+  h1 {
+    letter-spacing: 0.2px;
+  }
+}
+
+@media (max-width: 340px) {
+  .logout-btn {
+    width: clamp(36px, 10vw, 44px);
+    justify-content: center;
+    gap: 0;
+  }
+
+  .logout-btn > p {
+    display: none;
+  }
+
+  .profile-container > p {
+    display: none;
+  }
+
+  .profile-container {
+    padding: 0 1px 0 1px;
+  }
+}

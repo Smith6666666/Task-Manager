@@ -1,0 +1,352 @@
+.tasks-container {
+  width: 100%;
+  margin-top: 25px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.tasks-grid {
+  background: var(--c3);
+  width: 240px;
+  height: 340px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.task-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--c1);
+  margin-bottom: 5px;
+}
+
+.title-wrap {
+  border-bottom: 2px solid #ffffffb2;
+}
+
+.description-wrap {
+  height: 100px;
+}
+
+.description-wrap p {
+  font-size: 11px;
+  color: var(--c3);
+  letter-spacing: 0.5px;
+  background: var(--c2);
+  padding: 3px 15px;
+  border-radius: 8px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.task-description {
+  background: #ffffffb2;
+  color: var(--c1);
+  padding: 5px;
+  border-radius: 5px;
+  height: 75px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  overflow-y: scroll;
+}
+
+.task-description::-webkit-scrollbar {
+  width: 0;
+}
+
+.date-wrap {
+  height: 50px;
+}
+
+.duedate-wrap {
+  margin-top: 25px;
+}
+
+.date-wrap p {
+  font-size: 11px;
+  color: var(--c3);
+  letter-spacing: 0.5px;
+  background: var(--c2);
+  padding: 3px 15px;
+  border-radius: 8px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.task-duedate,
+.task-reminderat {
+  font-size: 13.5px;
+  color: var(--c1);
+}
+
+.btn {
+  border-radius: 9px;
+  padding: 3px 7px;
+  color: var(--success);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: var(--transition);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.btn:hover {
+  transform: scale(0.97);
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.mark-complete-btn {
+  background: transparent;
+  border: 1px solid var(--success);
+}
+
+.completed-btn {
+  background: var(--success);
+  color: white;
+  border: none;
+}
+
+.completed-btn:hover {
+  opacity: 0.6;
+}
+
+.edit-btn {
+  margin: 0 5px;
+  background: #ffffffb2;
+  border: none;
+  width: 55px;
+  color: #3b82f6;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #ffffffb2;
+  border: none;
+  color: var(--fail);
+  border: none;
+  width: 55px;
+}
+
+.input-form {
+  margin-bottom: 5px;
+}
+
+.input-form label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c1);
+}
+
+.input-form input {
+  width: 205px;
+  font-size: 12px;
+  background: var(--c1);
+  opacity: 0.8;
+  border-radius: 15px;
+  margin: 4px 0;
+}
+
+.input-form textarea {
+  width: 212px;
+  height: 60px;
+  margin: 4px 0;
+  padding: 4px 5px;
+  color: #ffffffb2;
+  border-radius: 12px;
+  font-size: 12px;
+  outline: none;
+  background: var(--c1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  opacity: 0.8;
+  resize: none;
+}
+
+.input-form textarea:focus {
+  outline: none;
+  border-color: var(--c3);
+  box-shadow:
+    0 0 0 2px var(--c2),
+    0 4px 5px var(--c2);
+}
+
+.update-btn {
+  color: #f59e0b;
+  font-size: 11px;
+  margin-right: 5px;
+  border: none;
+}
+
+.cancel-btn {
+  border: none;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.loading-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18%;
+}
+
+.loading-gif {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.not-found-text {
+  text-align: center;
+  color: var(--c3);
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.noti-box svg {
+  width: 18px;
+  height: 18px;
+  object-fit: cover;
+  background: transparent;
+  border: 1px solid var(--c1);
+  border-radius: 50%;
+  padding: 3px;
+  color: var(--c1);
+  transition: var(--transition);
+}
+
+.noti-box svg.active {
+  background: var(--c1);
+  color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: var(--transition);
+}
+
+/* ============================
+   RESPONSIVE ADDITIONS BELOW
+   (original rules unchanged above)
+
+   Strategy: grid-template-columns is a discrete property, so it
+   steps down at fixed breakpoints (5 → 4 → 3 → 2 → 1 columns)
+   rather than interpolating continuously — that's expected and
+   standard for CSS Grid. Everything else (card width safety,
+   typography, spacing) still scales fluidly via clamp() using
+   the same 320px–480px linear interpolation as the rest of the
+   site, so nothing snaps abruptly.
+   ============================ */
+
+.tasks-container {
+  gap: clamp(12px, calc(-4px + 5vw), 20px);
+}
+
+/* Card fills its grid column up to the original 240px size instead
+   of a hard-coded width — this is what lets the column-count
+   breakpoints below work without any card ever overflowing its
+   track, at any viewport width. */
+.tasks-grid {
+  width: 100%;
+  max-width: 260px;
+  box-sizing: border-box;
+  justify-self: center;
+}
+
+.task-title {
+  font-size: clamp(15px, calc(9px + 1.875vw), 18px);
+}
+
+.description-wrap p,
+.date-wrap p {
+  font-size: clamp(10px, calc(8px + 0.625vw), 11px);
+}
+
+.task-description {
+  font-size: clamp(12px, calc(9px + 0.9375vw), 13.5px);
+}
+
+.task-duedate,
+.task-reminderat {
+  font-size: clamp(12px, calc(9px + 0.9375vw), 13.5px);
+}
+
+.btn {
+  font-size: clamp(10px, calc(8px + 0.625vw), 11px);
+}
+
+.update-btn,
+.cancel-btn {
+  font-size: clamp(10px, calc(8px + 0.625vw), 11px);
+}
+
+.edit-btn,
+.delete-btn {
+  width: clamp(45px, calc(25px + 6.25vw), 55px);
+  font-size: clamp(10px, calc(8px + 0.625vw), 11px);
+  box-sizing: border-box;
+}
+
+.not-found-text {
+  font-size: clamp(18px, calc(4px + 4.375vw), 25px);
+}
+
+.input-form label {
+  font-size: clamp(11px, calc(7px + 1.25vw), 13px);
+}
+
+/* Fill the card's inner width instead of a fixed px value, so the
+   form never overflows the card even on the rare very-small
+   viewport where the card itself has to shrink below 240px. */
+.input-form input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: clamp(11px, calc(9px + 0.625vw), 12px);
+}
+
+.input-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: clamp(11px, calc(9px + 0.625vw), 12px);
+}
+
+/* Large desktop / original layout: unchanged, 5 columns (default above) */
+
+/* Large laptops */
+@media (max-width: 1300px) {
+  .tasks-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Small laptops / tablets landscape */
+@media (max-width: 1024px) {
+  .tasks-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Tablets portrait */
+@media (max-width: 768px) {
+  .tasks-container {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 18px;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .tasks-container {
+    grid-template-columns: repeat(1, 1fr);
+    margin-top: 14px;
+  }
+
+  .tasks-grid {
+    max-width: 320px;
+  }
+}

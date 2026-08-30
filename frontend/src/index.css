@@ -1,0 +1,16 @@
+body {
+  font-family: Roboto, Arial;
+  user-select: none;
+  margin: 0;
+}
+
+:root {
+  --c1: #606868;
+  --c2: #95a1a1;
+  --c3: #cbd7d1;
+  --b: #1d1e1e;
+  --success: #0c8f0c;
+  --fail: rgb(209, 14, 14);
+  --form-fail: #ab212193;
+  --transition: all 500ms ease;
+}

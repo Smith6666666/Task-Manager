@@ -1,0 +1,98 @@
+.signedup-page {
+  background: var(--c3);
+  width: 100%;
+  height: 100vh;
+}
+
+.row-2 {
+  background: var(--c1);
+  border-radius: 10px;
+  margin: 17% auto 0 auto;
+  width: 600px;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.row-2 > p {
+  color: var(--c3);
+  font-size: 20px;
+  text-shadow: 2px 4px 5px hsla(0, 2%, 30%, 0.789);
+}
+
+.row-2 > .click-btn {
+  background: var(--c3);
+  text-decoration: none;
+  color: var(--c1);
+  font-size: 12px;
+  padding: 5px 13px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.row-2 > .click-btn:hover {
+  opacity: 0.8;
+  transform: scale(0.97);
+  box-shadow: unset;
+  transition: var(--transition);
+}
+
+@media (max-width: 768px) {
+  .row-2 {
+    width: 85%;
+    max-width: 600px;
+    margin: 20% auto 0 auto;
+    height: 100px;
+    padding: 25px 15px;
+  }
+
+  .row-2 > p {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .signedup-page {
+    height: 100%;
+    min-height: 100vh;
+  }
+
+  .row-2 {
+    width: 90%;
+    margin: 35% auto 0 auto;
+    padding: 20px 15px;
+    gap: 15px;
+  }
+
+  .row-2 > p {
+    font-size: 15px;
+  }
+
+  .row-2 > a {
+    font-size: 13px;
+    padding: 6px 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .row-2 {
+    width: 85%;
+    margin: 50% auto 0 auto;
+    padding: 1px 5px;
+  }
+
+  .row-2 > p {
+    font-size: 14px;
+  }
+
+  .row-2 > .click-btn {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}

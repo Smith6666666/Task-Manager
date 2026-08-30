@@ -1,0 +1,149 @@
+.create-task-page {
+  padding: 10px;
+}
+
+.create-form {
+  margin-top: 15px;
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-form > div {
+  background: transparent;
+  border: 2px solid var(--c2);
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  width: 450px;
+  height: 490px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.create-form > div h2 {
+  text-align: center;
+  color: var(--c2);
+}
+
+.wrap-box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.wrap-box label {
+  color: var(--c1);
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.7;
+  margin-bottom: 5px;
+}
+
+textarea {
+  width: 300px;
+  padding: 5px 10px;
+  background: var(--c1);
+  color: var(--c3);
+  border: 1px solid var(--c2);
+  padding: 8px;
+  height: 60px;
+  font-size: 12px;
+  border-radius: 11px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  resize: none;
+  outline: none;
+  transition: var(--transition);
+}
+
+.error-msg {
+  width: 300px;
+  height: 18px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -8px;
+  font-size: 12px;
+  color: var(--fail);
+  margin-bottom: 5px;
+  transition: var(--transition);
+}
+
+.btns-box {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.create-btn {
+  background: var(--success);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 13px;
+  cursor: pointer;
+}
+
+.create-cancel-btn {
+  background: #6b7280;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 13px;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+}
+
+.create-cancel-btn:hover {
+  transform: scale(0.95);
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .create-form > div {
+    border-radius: 15px;
+    width: 430px;
+    padding: 0;
+  }
+
+  .create-form > div > div > input {
+    width: 280px;
+  }
+
+  .wrap-box label {
+    font-size: 13px;
+  }
+
+  textarea {
+    width: 280px;
+  }
+}
+
+@media (max-width: 375px) {
+  .create-form > div {
+    border-radius: 10px;
+    width: 380px;
+    height: 480px;
+    padding: 0;
+  }
+
+  .create-form > div > div > input {
+    width: 250px;
+  }
+
+  .wrap-box label {
+    font-size: 12px;
+  }
+
+  textarea {
+    width: 250px;
+  }
+}
