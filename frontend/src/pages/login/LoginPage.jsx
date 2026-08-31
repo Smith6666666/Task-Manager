@@ -2,11 +2,14 @@ import api from '../../utils/axios';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import { FormNav } from '../../components/FormNav';
+import UpdateLoading from '../../assets/update-loading.gif';
 import './LoginPage.css';
 
 export function LoginPage({ formError, setFormError }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [isLogging, setIsLogging] = useState(false);
 
   const navigate = useNavigate();
 
@@ -14,6 +17,8 @@ export function LoginPage({ formError, setFormError }) {
     e.preventDefault();
 
     try {
+      setIsLogging(true);
+
       const response = await api.post('/api/v1/auth/login', {
         email,
         password
@@ -41,7 +46,9 @@ export function LoginPage({ formError, setFormError }) {
       navigate('/dashboard');
     } catch (error) {
       setFormError(error.response?.data?.message || 'Something went wrong');
-    }
+    } finally {
+      setIsLogging(false);
+    };
   };
 
   return (
@@ -62,11 +69,15 @@ export function LoginPage({ formError, setFormError }) {
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <p className="err-message">{formError}</p>
-          <button type="submit">Login</button>
+          {isLogging ? (
+            <img className="update-loading" src={UpdateLoading} />
+          ) : (
+            <button type="submit">Login</button>
+          )}
         </form>
 
         <NavLink to="/signup" className="acc-create">Create an account</NavLink>
       </div>
-    </div>
+    </div >
   );
 };
