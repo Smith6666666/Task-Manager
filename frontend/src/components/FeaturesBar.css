@@ -1,5 +1,5 @@
 .features-bar {
-  height: 30px;
+  height: fit-content;
   padding: 10px;
   display: flex;
   align-items: center;
