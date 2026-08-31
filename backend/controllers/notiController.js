@@ -2,7 +2,7 @@ const webpush = require('web-push');
 const Subscription = require('../models/subscriptionModel');
 
 webpush.setVapidDetails(
-  'mailto:kokozayarnaing.tga007@gmail.com',
+  process.env.VAPID_SUBJECT,
   process.env.VAPID_PUBLIC,
   process.env.VAPID_PRIVATE
 );
@@ -87,7 +87,7 @@ exports.saveSubscription = async (req, res) => {
 
 exports.sendTestNotification = async (req, res) => {
   try {
-    const subscriptions = await Subscription.find();
+    const subscriptions = await Subscription.find({ user: req.user._id });
 
     const payload = JSON.stringify({
       title: 'Task Manager',

@@ -23,8 +23,6 @@ async function checkReminders() {
         user: task.user
       });
 
-      let sentSuccessfully = false;
-
       const payload = JSON.stringify({
         title: 'Task Manager',
         body: task.title
@@ -36,21 +34,20 @@ async function checkReminders() {
             subscription,
             payload
           );
-
-          sentSuccessfully = true;
         } catch (error) {
           if (error.statusCode === 404 || error.statusCode === 410) {
-            await Subscription.findOneAndDelete({ endpoint: subscription.endpoint });
+            await Subscription.findOneAndDelete({
+              endpoint: subscription.endpoint,
+              user: task.user
+            });
           } else {
             console.error('Push notification failed:', error.message);
-          }
+          };
         };
       };
 
-      if (sentSuccessfully) {
-        task.reminderSent = true;
-        await task.save();
-      };
+      task.reminderSent = true;
+      await task.save();
     };
   } catch (error) {
     console.error(

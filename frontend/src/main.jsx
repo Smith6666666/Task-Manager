@@ -6,7 +6,11 @@ import App from './App.jsx';
 
 async function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
-    await navigator.serviceWorker.register('/service-worker.js');
+    try {
+      await navigator.serviceWorker.register('/service-worker.js');
+    } catch (error) {
+      console.error('Service worker registration failed:', error);
+    };
   };
 };
 
