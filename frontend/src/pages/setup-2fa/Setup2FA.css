@@ -6,7 +6,7 @@
 .qr-container {
   background: var(--c1);
   margin: auto;
-  margin-top: 2%;
+  margin-top: 3%;
   width: 450px;
   height: 600px;
   border-radius: 5px;
@@ -188,7 +188,7 @@
 
   .qr-container {
     width: 92%;
-    margin-top: 2%;
+    margin-top: 5%;
   }
 
   .qr-container > .icon-container > i {
@@ -255,6 +255,7 @@
 @media (max-width: 360px) {
   .qr-container {
     width: 96%;
+    margin-top: 6%;
   }
 
   .circle {

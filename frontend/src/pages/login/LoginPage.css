@@ -10,8 +10,10 @@
   width: clamp(300px, 90%, 430px);
   min-height: 340px;
   height: auto;
-  margin: auto;
-  margin-top: 12%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: clamp(20px, 4vw, 0px);
   display: flex;
   flex-direction: column;
@@ -120,7 +122,6 @@
 
 @media (max-width: 480px) {
   .login-page > .form-container {
-    margin-top: 25%;
     padding: 30px 20px;
   }
 }
