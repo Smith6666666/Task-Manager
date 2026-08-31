@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../utils/axios';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { FormNav } from '../../components/FormNav';
@@ -20,7 +20,7 @@ export function VerifyLogin() {
     try {
       setIsVerifying(true);
 
-      const response = await axios.post('/api/v1/auth/verify-login', {
+      const response = await api.post('/api/v1/auth/verify-login', {
         token: otpCode,
         twoFactorToken
       });

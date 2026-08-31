@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../utils/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { FormNav } from '../../components/FormNav';
@@ -39,7 +39,7 @@ export function ForgotPassword() {
     try {
       setIsProcessing(true);
 
-      const response = await axios.post('/api/v1/auth/forgot-password', { email: email.trim() });
+      const response = await api.post('/api/v1/auth/forgot-password', { email: email.trim() });
 
       setError('');
 

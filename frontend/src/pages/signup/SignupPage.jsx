@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../utils/axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { FormNav } from '../../components/FormNav';
@@ -26,7 +26,7 @@ export function SignupPage({ formError, setFormError }) {
     try {
       setIsCreating(true);
 
-      const response = await axios.post('/api/v1/auth/signup', {
+      const response = await api.post('/api/v1/auth/signup', {
         name: newName,
         email: newEmail,
         password: newPassword

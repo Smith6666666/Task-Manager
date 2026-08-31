@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../utils/axios';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { FormNav } from '../../components/FormNav';
@@ -27,7 +27,7 @@ export function ForgotPassword2FA() {
       setIsVerifying(true);
       setError('');
 
-      const response = await axios.post('/api/v1/auth/forgot-password/two-factor', {
+      const response = await api.post('/api/v1/auth/forgot-password/two-factor', {
         email,
         token: otpCode
       });

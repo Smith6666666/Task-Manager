@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../utils/axios';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FormNav } from '../../components/FormNav';
@@ -21,7 +21,7 @@ export function ResetPassword() {
   useEffect(() => {
     async function validateToken() {
       try {
-        await axios.get(`/api/v1/auth/validate/reset-password/${token}`);
+        await api.get(`/api/v1/auth/validate/reset-password/${token}`);
       } catch (error) {
         window.alert(error.response?.data?.message || 'Password reset token is invalid or expired');
         navigate('/', { replace: true });
@@ -49,7 +49,7 @@ export function ResetPassword() {
     try {
       setIsConfirming(true);
 
-      const response = await axios.patch(`/api/v1/auth/reset-password/${token}`, { newPassword, confirmPassword });
+      const response = await api.patch(`/api/v1/auth/reset-password/${token}`, { newPassword, confirmPassword });
 
       setError('');
 
