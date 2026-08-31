@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const path = require('path');
 
 const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
@@ -20,7 +21,7 @@ const sendEmail = async (options) => {
     attachments: [
       {
         filename: 'logo-sm.png',
-        path: 'public/logo-sm.png',
+        path: path.join(__dirname, '..', 'public', 'logo-sm.png'),
         cid: 'task-manager-logo'
       }
     ]
