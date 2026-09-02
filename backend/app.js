@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const app = express();
 
-app.set('trust proxy', 2);
+app.set('trust proxy', 3);
 
 app.get('/debug-ip', (req, res) => {
   res.json({
