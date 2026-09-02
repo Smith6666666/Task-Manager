@@ -1,12 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const rateLimit = require('express-rate-limit');
+const { rateLimit, ipKeyGenerator } = require('express-rate-limit');
+
+const getClientIp = require('../utils/getClientIp');
 
 const authController = require('../controllers/authController');
+
+const clientIpKeyGenerator = (req) => {
+  const clientIp = getClientIp(req);
+  return ipKeyGenerator(clientIp);
+};
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 10,
+  keyGenerator: clientIpKeyGenerator,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -18,6 +26,7 @@ const loginLimiter = rateLimit({
 const otpLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
   limit: 5,
+  keyGenerator: clientIpKeyGenerator,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -29,6 +38,7 @@ const otpLimiter = rateLimit({
 const recoveryLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 5,
+  keyGenerator: clientIpKeyGenerator,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
