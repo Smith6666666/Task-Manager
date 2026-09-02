@@ -4,6 +4,16 @@ const helmet = require('helmet');
 const cors = require('cors');
 const app = express();
 
+app.set('trust proxy', 1);
+
+app.get('/debug-ip', (req, res) => {
+  res.json({
+    ip: req.ip,
+    ips: req.ips,
+    forwardedFor: req.headers['x-forwarded-for']
+  });
+});
+
 const globalErrorHandler = require('./utils/globalErrorHandler');
 
 const taskRoutes = require('./routes/taskRoutes');
@@ -23,7 +33,7 @@ app.use('/uploads', (req, res, next) => {
   express.static(path.join(__dirname, 'public', 'uploads'))
 );
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/v1/tasks', taskRoutes);
 app.use('/api/v1/noti', notiRoutes);
