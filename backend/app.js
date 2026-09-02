@@ -4,16 +4,6 @@ const helmet = require('helmet');
 const cors = require('cors');
 const app = express();
 
-app.set('trust proxy', 3);
-
-app.get('/debug-ip', (req, res) => {
-  res.json({
-    ip: req.ip,
-    ips: req.ips,
-    forwardedFor: req.headers['x-forwarded-for']
-  });
-});
-
 const globalErrorHandler = require('./utils/globalErrorHandler');
 
 const taskRoutes = require('./routes/taskRoutes');

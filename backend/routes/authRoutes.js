@@ -41,7 +41,7 @@ router.get('/validate/reset-password/:token', authController.validateResetToken)
 
 router.post('/signup', authController.signup);
 router.post('/login', loginLimiter, authController.login);
-router.post('/verify-login', authController.verifyTwoFactorLogin);
+router.post('/verify-login', otpLimiter, authController.verifyTwoFactorLogin);
 router.post('/forgot-password', recoveryLimiter, authController.forgotPassword);
 router.post('/forgot-password/two-factor', otpLimiter, authController.forgotPasswordTwoFactor);
 
